@@ -1,0 +1,20 @@
+本文件是给新手的一页速查（内容与 README 一致，跑完可删）。
+
+已完成的命令总览（python main.py）：
+
+1. check   — 自检：LLM 网关 + 靶子接口通不通、列出可用模型
+2. run     — 把用例转 pytest 并执行，生成 reports/report.html + reports/failures.json
+3. gen     — 调 AI 生成测试用例
+4. analyze — 把失败用例发给 AI 分析原因
+
+你只需要按顺序跑：
+  1) pip install -r requirements.txt
+  2) uvicorn app.main:app --reload --port 8000   （终端A）
+  3) python main.py check                        （终端B）
+  4) python main.py run examples/sample_cases.json
+  5) python main.py gen examples/users_api.json cases.json
+  6) python main.py run cases.json
+  7) python main.py analyze reports/failures.json  （若有失败）
+
+备注：.env 我已按你给的 7863 网关配好，密钥已写入，无需再改。
+推 GitHub 看 PUSH_GITHUB.md；面试话术看 README 末尾。

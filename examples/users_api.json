@@ -1,0 +1,64 @@
+{
+  "name": "用户与订单系统（演示靶子）",
+  "base_url": "http://127.0.0.1:8000",
+  "auth": {
+    "type": "bearer",
+    "token": "demo-token-123",
+    "note": "POST /login 用密码 123456 能拿到 token；POST /orders 必须带 Authorization: Bearer <token>"
+  },
+  "endpoints": [
+    {
+      "name": "健康检查",
+      "method": "GET",
+      "path": "/health",
+      "note": "正常返回 200，响应里含 status=ok"
+    },
+    {
+      "name": "登录",
+      "method": "POST",
+      "path": "/login",
+      "body": {"username": "alice", "password": "123456"},
+      "note": "密码正确返回 200 且含 token；密码错误返回 401；缺字段返回 422"
+    },
+    {
+      "name": "用户列表",
+      "method": "GET",
+      "path": "/users",
+      "note": "返回 200，响应里含 users 数组"
+    },
+    {
+      "name": "用户详情",
+      "method": "GET",
+      "path": "/users/{id}",
+      "note": "存在的 id 返回 200；不存在的 id 返回 404"
+    },
+    {
+      "name": "创建用户",
+      "method": "POST",
+      "path": "/users",
+      "body": {"username": "carol", "role": "user"},
+      "note": "成功返回 200；缺 username 返回 422；重复用户名返回 409"
+    },
+    {
+      "name": "更新用户",
+      "method": "PUT",
+      "path": "/users/{id}",
+      "body": {"username": "alice2", "role": "admin"},
+      "note": "成功返回 200；不存在的 id 返回 404"
+    },
+    {
+      "name": "删除用户",
+      "method": "DELETE",
+      "path": "/users/{id}",
+      "note": "成功返回 200；不存在的 id 返回 404"
+    },
+    {
+      "name": "创建订单",
+      "method": "POST",
+      "path": "/orders",
+      "headers": {"Authorization": "Bearer demo-token-123"},
+      "body": {"user_id": 1, "item": "机械键盘", "amount": 299.0},
+      "note": "成功返回 200；缺 token 返回 401；amount<=0 返回 422；user_id 不存在返回 404"
+    }
+  ]
+}

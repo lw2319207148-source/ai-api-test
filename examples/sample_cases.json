@@ -1,0 +1,12 @@
+[
+  {"id": "h1", "name": "健康检查正常", "category": "normal", "method": "GET", "path": "/health", "headers": {}, "params": {}, "body": null, "expected_status": 200, "expect_fields": ["status"], "expect_absent_fields": []},
+  {"id": "l1", "name": "登录成功", "category": "normal", "method": "POST", "path": "/login", "headers": {}, "params": {}, "body": {"username": "alice", "password": "123456"}, "expected_status": 200, "expect_fields": ["token"], "expect_absent_fields": []},
+  {"id": "l2", "name": "登录密码错误", "category": "exception", "method": "POST", "path": "/login", "headers": {}, "params": {}, "body": {"username": "alice", "password": "wrong"}, "expected_status": 401, "expect_fields": [], "expect_absent_fields": ["token"]},
+  {"id": "u1", "name": "用户列表正常", "category": "normal", "method": "GET", "path": "/users", "headers": {}, "params": {}, "body": null, "expected_status": 200, "expect_fields": ["users"], "expect_absent_fields": []},
+  {"id": "u2", "name": "用户详情存在", "category": "normal", "method": "GET", "path": "/users/1", "headers": {}, "params": {}, "body": null, "expected_status": 200, "expect_fields": ["id", "username"], "expect_absent_fields": []},
+  {"id": "u3", "name": "用户详情不存在", "category": "exception", "method": "GET", "path": "/users/999", "headers": {}, "params": {}, "body": null, "expected_status": 404, "expect_fields": [], "expect_absent_fields": []},
+  {"id": "u4", "name": "创建用户缺username", "category": "exception", "method": "POST", "path": "/users", "headers": {}, "params": {}, "body": {"role": "user"}, "expected_status": 422, "expect_fields": [], "expect_absent_fields": []},
+  {"id": "o1", "name": "无token创建订单", "category": "exception", "method": "POST", "path": "/orders", "headers": {}, "params": {}, "body": {"user_id": 1, "item": "键盘", "amount": 299.0}, "expected_status": 401, "expect_fields": [], "expect_absent_fields": []},
+  {"id": "o2", "name": "带token创建订单成功", "category": "normal", "method": "POST", "path": "/orders", "headers": {"Authorization": "Bearer demo-token-123"}, "params": {}, "body": {"user_id": 1, "item": "键盘", "amount": 299.0}, "expected_status": 200, "expect_fields": ["id", "item"], "expect_absent_fields": []},
+  {"id": "o3", "name": "金额为0创建订单", "category": "boundary", "method": "POST", "path": "/orders", "headers": {"Authorization": "Bearer demo-token-123"}, "params": {}, "body": {"user_id": 1, "item": "键盘", "amount": 0}, "expected_status": 422, "expect_fields": [], "expect_absent_fields": []}
+]
